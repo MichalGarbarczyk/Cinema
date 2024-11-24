@@ -1,0 +1,16 @@
+<template>
+    <lightning-icon lwc:if={displayIcon} icon-name="action:approval" alternative-text="Approved" title="Approved"></lightning-icon>
+    <h1>{textHere}</h1>
+    <lightning-button label="Zwrotka" title="Non-primary action" onclick={handleClickzwrot} class="slds-m-left_x-small"></lightning-button>
+
+    <lightning-record-edit-form
+    object-api-name={Account}
+    record-id={recordId}
+>
+    <lightning-input-field field-name={Name}> gówno</lightning-input-field>
+    <div class="slds-var-m-top_medium">
+        <lightning-button variant="brand" type="submit" label="Save">
+        </lightning-button>
+    </div>
+</lightning-record-edit-form>
+</template>

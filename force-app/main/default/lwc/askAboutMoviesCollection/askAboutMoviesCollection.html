@@ -1,0 +1,15 @@
+<template>
+        <lightning-card>
+            <img class="movieLogo" src={movieSiteLogo} alt="movie site Logo"/>
+            <lightning-button label="New" slot="actions"></lightning-button>
+            <p class="slds-text-align_center slds-m-top_medium">Filmy dostępnę w miesiącu {currentMonthName}</p>
+            <p slot="footer">Card Footer</p>
+        </lightning-card>
+            <div style="height: 300px;">
+                <lightning-datatable
+                        key-field="id"
+                        data={data}
+                        columns={columns}>
+                </lightning-datatable>
+            </div>
+</template>
