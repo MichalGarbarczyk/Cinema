@@ -28,7 +28,7 @@ public without sharing class GetMovieInformationFromApi {
                     //         Map<String, Object> rating = (Map<String, Object>) ratingObj;
                     //         System.debug('Ocena z ' + rating.get('Source') + ': ' + rating.get('Value'));
                     //     }
-                    // }
+                    //f }
                 } else {
                     System.debug('Error: ' + response.getStatusCode());
                 }
