@@ -1,5 +1,5 @@
-public class SomeClass implements getMoviesApiCallSchedule {
+public class getMoviesApiCallSchedule implements Schedulable {
     public void execute(SchedulableContext ctx) {
-        // awesome code here
+        // GetMovieInformationFromApi.getMovieByTitle();
     }
 }

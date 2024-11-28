@@ -1,8 +1,9 @@
 import { LightningElement } from 'lwc';
 import myImage from '@salesforce/resourceUrl/moviePng';
+import moviesInfoApi from '@salesforce/apex/GetMovieInformationFromApi.getMovieByTitle';
 
 export default class AskAboutMoviesCollection extends LightningElement {
-
+    filmy =[];
     data = [
         {
             id: '1',
@@ -38,8 +39,14 @@ export default class AskAboutMoviesCollection extends LightningElement {
         'lipiec', 'sierpień', 'wrzesień', 'październik', 'listopad', 'grudzień'
     ];
 
-    connectedCallback() {
+    async connectedCallback() {
         const today = new Date();
         this.currentMonthName = this.monthNames[today.getMonth()];
+        await moviesInfoApi().then(data => {
+            this.filmy = data;
+            console.log(this.filmy);
+        }).catch(error => {
+            console.log(error);
+        });
     }
 }
