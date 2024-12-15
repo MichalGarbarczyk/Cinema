@@ -3,50 +3,46 @@ import myImage from '@salesforce/resourceUrl/moviePng';
 import moviesInfoApi from '@salesforce/apex/GetMovieInformationFromApi.getMovieByTitle';
 
 export default class AskAboutMoviesCollection extends LightningElement {
-    filmy =[];
-    data = [
-        {
-            id: '1',
-            name: 'Inception',
-            productionYear: '1996',
-            price: 10000,
-            time: '2024-11-01',
-        },
-        {
-            id: '2',
-            name: 'Inception',
-            productionYear: '1996',
-            price: 10000,
-            time: '2024-11-01',
-        }
-    ];
+    data = []; 
 
     columns = [
         { label: 'Tytuł', fieldName: 'name' },
-        { label: 'Rok produkcji', fieldName: 'productionYear' },
-        { label: 'Cena', fieldName: 'price',type: 'currency'},
-        { label: 'Okres trwania wykupu', fieldName: 'time', type: 'date' },
+        { label: 'Data produkcji', fieldName: 'productionDate', type: 'date' },
+        { label: 'Koszty produkcji', fieldName: 'productionPrice', type: 'currency' },
+        { label: 'Cena wykupu', fieldName: 'price', type: 'currency' },
     ];
-
-
 
     movieSiteLogo = myImage;
-    todayDate;
-    currentMonth;
-    currentMonthName;
-    monthNames = [
-        'styczeń', 'luty', 'marzec', 'kwiecień', 'maj', 'czerwiec',
-        'lipiec', 'sierpień', 'wrzesień', 'październik', 'listopad', 'grudzień'
-    ];
 
-    async connectedCallback() {
-        const today = new Date();
-        this.currentMonthName = this.monthNames[today.getMonth()];
-        await moviesInfoApi().then(data => {
-            this.filmy = data;
-            console.log(this.filmy);
-        }).catch(error => {
-            console.log(error);
-        });
+    connectedCallback() {
+        this.fetchMovies();
+    }
+
+    fetchMovies() {
+        moviesInfoApi()
+            .then((result) => {
+                console.log(result);
+                this.data = Object.keys(result).map((key) => {
+                    const movie = result[key];
+                    return {
+                        name: key, 
+                        productionPrice: movie.BoxOffice
+                            ? parseInt(movie.BoxOffice.replace(/[^0-9]/g, '')) 
+                            : 0,
+                        productionDate: movie.Released, 
+                        price: this.createPrice(), 
+                    };
+                });
+            })
+            .catch((error) => {
+                this.error = error;
+                console.error('Błąd pobierania filmów:', error);
+            });
+    }
+
+    createPrice() {
+        const min = 1000;
+        const max = 9000;
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 }
