@@ -1,15 +1,78 @@
 <template>
         <lightning-card>
             <img class="movieLogo" src={movieSiteLogo} alt="movie site Logo"/>
-            <lightning-button label="New" slot="actions"></lightning-button>
-            <p class="slds-text-align_center slds-m-top_medium">Filmy dostępnę w miesiącu {currentMonthName}</p>
-            <p slot="footer">Card Footer</p>
         </lightning-card>
             <div style="height: 300px;">
-                <lightning-datatable
-                        key-field="id"
-                        data={data}
-                        columns={columns}>
-                </lightning-datatable>
+                <lightning-card title="Dostępne filmy">
+                    <template if:true={data}>
+                        <div class="slds-table_responsive">
+                            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Tytuł">Tytuł</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Obsada">Obsada</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Gatunek">Gatunek</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Opis">Opis</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Czas trwania">Czas trwania</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Rok produkcji">Rok produkcji</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Cena">Cena</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Zakup filmu">Zakup filmu</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={data} for:item="movie">
+                                        <tr key={movie.id}>
+                                            <td>
+                                                <div class="slds-truncate" title={movie.Title}>{movie.Title}</div>
+                                            </td>
+                                            <td>
+                                                <div class="slds-truncate" title={movie.price}>{movie.Actors}</div>
+                                            </td>
+                                            <td>
+                                                <div class="slds-truncate" title={movie.price}>{movie.Genre}</div>
+                                            </td>
+                                            <td>
+                                                <div style="white-space: normal; max-height: 4rem; overflow-y: auto;" title={movie.Plot}>
+                                                    {movie.Plot}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="slds-truncate" title={movie.price}>{movie.Runtime}</div>
+                                            </td>
+                                            <td>
+                                                <div class="slds-truncate" title={movie.Year}>{movie.Year}</div>
+                                            </td>
+                                            <td>
+                                                <div class="slds-truncate" title={movie.price}>${movie.price}</div>
+                                            </td>
+                                            <td>
+                                                <lightning-button variant="kup" label="Kup" title="Primary action" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                    <template if:false={data}>
+                        <p class="slds-text-align_center">Brak dostępnych danych</p>
+                    </template>
+                </lightning-card>
             </div>
 </template>

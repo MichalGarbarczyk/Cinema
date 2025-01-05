@@ -20,20 +20,14 @@ export default class AskAboutMoviesCollection extends LightningElement {
 
     fetchMovies() {
         moviesInfoApi()
-            .then((result) => {
-                console.log(result);
-                this.data = Object.keys(result).map((key) => {
-                    const movie = result[key];
-                    return {
-                        name: key, 
-                        productionPrice: movie.BoxOffice
-                            ? parseInt(movie.BoxOffice.replace(/[^0-9]/g, '')) 
-                            : 0,
-                        productionDate: movie.Released, 
-                        price: this.createPrice(), 
-                    };
-                });
-            })
+        .then(result => {
+            console.log(result);
+            this.data = Object.keys(result).map(key => ({
+                id: key,
+                ...result[key],
+                price: this.createPrice(result[key])
+            }));
+        })
             .catch((error) => {
                 this.error = error;
                 console.error('Błąd pobierania filmów:', error);
@@ -44,5 +38,9 @@ export default class AskAboutMoviesCollection extends LightningElement {
         const min = 1000;
         const max = 9000;
         return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    handleClick(){
+        console.log('Clicked');
     }
 }
