@@ -1,9 +1,13 @@
 import { LightningElement } from 'lwc';
 import myImage from '@salesforce/resourceUrl/moviePng';
 import moviesInfoApi from '@salesforce/apex/GetMovieInformationFromApi.getMovieByTitle';
+import buyMovieFromList from '@salesforce/apex/SaveMovieInDatabase.createMovieRecord';
 
 export default class AskAboutMoviesCollection extends LightningElement {
     data = []; 
+    selectedMoviesToBuy = [];
+
+
 
     columns = [
         { label: 'Tytuł', fieldName: 'name' },
@@ -40,7 +44,16 @@ export default class AskAboutMoviesCollection extends LightningElement {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    handleClick(){
-        console.log('Clicked');
+    handleClick(event) {
+        const movieId = event.target.dataset.id;
+        const selectedMovie = this.data.find(movie => movie.id === movieId);
+        if (selectedMovie) {
+            const movieCopy = JSON.parse(JSON.stringify(selectedMovie));
+            this.selectedMoviesToBuy = [...this.selectedMoviesToBuy, movieCopy];
+        } else {
+            console.error('Nie znaleziono filmu o podanym id:', movieId);
+        }
     }
+    
+    
 }

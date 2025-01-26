@@ -62,7 +62,14 @@
                                                 <div class="slds-truncate" title={movie.price}>${movie.price}</div>
                                             </td>
                                             <td>
-                                                <lightning-button variant="kup" label="Kup" title="Primary action" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+                                                <lightning-button 
+                                                    variant="brand" 
+                                                    label="Kup" 
+                                                    title="Kup film" 
+                                                    data-id={movie.id} 
+                                                    onclick={handleClick} 
+                                                    class="slds-m-left_x-small">
+                                                </lightning-button>
                                             </td>
                                         </tr>
                                     </template>
