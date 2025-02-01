@@ -1,0 +1,18 @@
+<template>
+    <lightning-button 
+        variant="success" 
+        label="KUP" 
+        title="Successful action" 
+        onclick={handleClick} 
+        class="slds-m-left_x-small">
+    </lightning-button>
+
+    <template if:true={secoundSelectedMoviesToBuy.length}>
+        <p>Filmy do kupienia:</p>
+        <ul>
+            <template for:each={secoundSelectedMoviesToBuy} for:item="movie">
+                <li key={movie.id}>{movie.Title} - {movie.price} USD</li>
+            </template>
+        </ul>
+    </template>
+</template>

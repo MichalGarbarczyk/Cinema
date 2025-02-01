@@ -1,11 +1,24 @@
-import { LightningElement } from 'lwc';
+import { LightningElement,wire } from 'lwc';
 import myImage from '@salesforce/resourceUrl/moviePng';
 import moviesInfoApi from '@salesforce/apex/GetMovieInformationFromApi.getMovieByTitle';
 import buyMovieFromList from '@salesforce/apex/SaveMovieInDatabase.createMovieRecord';
-
+import testChannel from '@salesforce/messageChannel/testChannel__c';
+import { publish,MessageContext } from 'lightning/messageService';
 export default class AskAboutMoviesCollection extends LightningElement {
     data = []; 
+
+    @wire(MessageContext) 
+    messageContext;
+
     selectedMoviesToBuy = [];
+
+    publishMessage() {
+        const message = {
+            selectedMoviesToBuy: this.selectedMoviesToBuy 
+        };
+    
+        publish(this.messageContext, testChannel, message);
+    }
 
 
 
@@ -53,6 +66,9 @@ export default class AskAboutMoviesCollection extends LightningElement {
         } else {
             console.error('Nie znaleziono filmu o podanym id:', movieId);
         }
+
+        this.publishMessage();
+        
     }
     
     
